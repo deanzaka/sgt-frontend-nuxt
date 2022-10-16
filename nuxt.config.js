@@ -25,6 +25,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios',
+    '~/plugins/service',
+    '~/plugins/errors.js',
+    '~/plugins/vuetify.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,7 +42,15 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/proxy',
   ],
+
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: process.env.API_ENDPOINT,
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -61,5 +73,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    target: process.env.BASE_URL,
+    standalone: true
+  },
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL
+  },
+
+  // Server configuration
+  server: {
+    host: 0,
+    port: 3000
   }
 }
