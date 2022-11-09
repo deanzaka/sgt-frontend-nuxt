@@ -17,6 +17,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { STORE_LOGIN_INFO } from '~/utils/constants'
+import moment from 'moment-timezone'
 
 export default {
   data: () => ({
@@ -26,16 +27,27 @@ export default {
     ...mapGetters('authentications', ['isUserDashboard', 'loginInfo']),
   },
   methods: {
-    ...mapActions('authentications', ['STORE_LOGIN_INFO']),
+    ...mapActions('authentications', [STORE_LOGIN_INFO]),
     async logout() {
       localStorage.removeItem('loginInfo')
       await this[STORE_LOGIN_INFO]({})
       this.$router.push('/auth/login')
     },
   },
-  mounted() {
+  async mounted() {
     if (this.isUserDashboard) { this.dashboardType = 'User' } else { this.dashboardType = 'Admin' }
-    console.log(this.loginInfo)
+    if (!this.loginInfo) {
+      if(!process.client) return;
+      const loginData = localStorage.getItem("loginInfo");
+      if(loginData){
+        if (moment().isAfter(moment(loginData.time).add(loginData.expiresIn, 'seconds'))) {
+          localStorage.removeItem("loginInfo");
+          await this[STORE_LOGIN_INFO]({});
+          this.$router.push('/auth/login')
+        }
+        await this[STORE_LOGIN_INFO](JSON.parse(loginData));
+      }
+    }
   },
 }
 </script>
