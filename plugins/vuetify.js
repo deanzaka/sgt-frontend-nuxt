@@ -15,13 +15,21 @@ export default (ctx) => {
       light: true,
       themes: {
         light: {
-          primary: '#8431e7',
-          secondary: '#3F51B5',
+          primary: '#5C6BC0',
+          secondary: '#64B5F6',
           info: '#26A69A',
           warning: '#FFC107',
           error: '#D50000',
           success: '#00E676',
         },
+        dark: {
+          primary: '#26418F',
+          secondary: '#2286C3',
+          info: '#26A69A',
+          warning: '#FFC107',
+          error: '#D50000',
+          success: '#00E676',
+        }
       },
     },
   })

@@ -3,6 +3,7 @@
     :headers="headers"
     :items="items"
     :loading="isLoading"
+    loading-text="LOADING DATA"
     item-key="imei"
     class="elevation-1"
   >
@@ -19,7 +20,6 @@ import { mapGetters } from 'vuex';
           const res = await this.$getAllDevices();
           
           if (res) {
-            console.log(res);
             this.items = res;
           }
         } catch (error) {
