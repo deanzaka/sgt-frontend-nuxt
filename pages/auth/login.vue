@@ -5,9 +5,6 @@
         <v-layout align-center justify-center>
           <v-flex xs8 sm6 md4 lg4 xl4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Login form</v-toolbar-title>
-              </v-toolbar>
               <v-layout align-center justify-center>
                 <img src="~/assets/img/Logo.png" alt="logo" class="logo">
               </v-layout>
@@ -29,8 +26,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { STORE_LOGIN_INFO } from '~/utils/constants'
+import moment from 'moment-timezone'
 
 export default {
   layout: 'empty',
