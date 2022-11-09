@@ -18,8 +18,8 @@ export const mutations = {
   [STORE_LOGIN_INFO](state, payload) {
     state.loginInfo = payload
   },
-  [TOGGLE_DASHBOARD](state) {
-    state.isUserDasboard = !state.isUserDasboard
+  [TOGGLE_DASHBOARD](state, payload) {
+    state.isUserDasboard = payload
   }
 }
 
@@ -31,9 +31,9 @@ export const actions = {
       console.log(error)
     }
   },
-  async [TOGGLE_DASHBOARD]({ commit }) {
+  async [TOGGLE_DASHBOARD]({ commit }, payload) {
     try {
-      commit(TOGGLE_DASHBOARD)
+      commit(TOGGLE_DASHBOARD, payload)
     } catch (error) {
       console.log(error)
     }

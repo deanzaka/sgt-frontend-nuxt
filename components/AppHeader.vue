@@ -5,6 +5,14 @@
     <v-spacer></v-spacer>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
+        <v-btn data-app icon v-bind="attrs" v-on="on" @click="switchRole()">
+          <v-icon>mdi-account-switch</v-icon>
+        </v-btn>
+      </template>
+      <span>Switch role</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn data-app icon v-bind="attrs" v-on="on" @click="logout()">
           <v-icon>mdi-logout</v-icon>
         </v-btn>
@@ -33,6 +41,15 @@ export default {
       await this[STORE_LOGIN_INFO]({})
       this.$router.push('/auth/login')
     },
+    async switchRole() {
+      if (this.isUserDashboard) {
+        this.$router.push('/admin')
+        this.dashboardType = 'User'
+      } else {
+        this.$router.push('/')
+        this.dashboardType = 'Admin'
+      }
+    }
   },
   async mounted() {
     if (this.isUserDashboard) { this.dashboardType = 'User' } else { this.dashboardType = 'Admin' }
