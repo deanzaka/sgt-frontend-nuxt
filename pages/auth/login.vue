@@ -30,7 +30,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { LOGIN_INFO, STORE_LOGIN_INFO } from '~/utils/constants'
+import { STORE_LOGIN_INFO } from '~/utils/constants'
 
 export default {
   layout: 'empty',
@@ -39,9 +39,6 @@ export default {
       username: '',
       password: '',
     }
-  },
-  computed: {
-    ...mapGetters('authentications', [LOGIN_INFO]),
   },
   methods: {
     ...mapActions('authentications', [STORE_LOGIN_INFO]),
@@ -62,7 +59,7 @@ export default {
     if(loginData){
       if (moment().isAfter(moment(loginData.time).add(loginData.expiresIn, 'seconds'))) {
         localStorage.removeItem("loginInfo");
-        await this[STORE_LOGIN_INFO](JSON.parse({}));
+        await this[STORE_LOGIN_INFO]({});
       }
       await this[STORE_LOGIN_INFO](JSON.parse(loginData));
     }

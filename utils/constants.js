@@ -18,7 +18,7 @@ export const DEFAULT_ERROR_MESSAGE = {
 
 // auth module store
 export const STORE_LOGIN_INFO = 'storeLoginInfo'
-export const LOGIN_INFO = 'loginInfo'
+export const TOGGLE_DASHBOARD = 'toggleDashboard'
 
 // accounts module store
 export const GET_ALL_ACCOUNTS = 'getAllAccounts'

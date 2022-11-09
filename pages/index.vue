@@ -18,13 +18,13 @@ export default {
     if (loginData) {
       if (moment().isAfter(moment(loginData.time).add(loginData.expiresIn, 'seconds'))) {
         localStorage.removeItem("loginInfo");
-        await this[STORE_LOGIN_INFO](JSON.parse({}));
+        await this[STORE_LOGIN_INFO]({});
         return this.$router.push('/auth/login');
       }
       await this[STORE_LOGIN_INFO](JSON.parse(loginData));
     } else {
       localStorage.removeItem("loginInfo");
-      await this[STORE_LOGIN_INFO](JSON.parse({}));
+      await this[STORE_LOGIN_INFO]({});
       return this.$router.push('/auth/login')
     }
   },
