@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { LOGIN } from '~/utils/constants'
+import { mapActions, mapGetters } from 'vuex'
+import { LOGIN_INFO, STORE_LOGIN_INFO } from '~/utils/constants'
+
 export default {
   layout: 'empty',
   data() {
@@ -39,14 +40,31 @@ export default {
       password: '',
     }
   },
+  computed: {
+    ...mapGetters('authentications', [LOGIN_INFO]),
+  },
   methods: {
-    ...mapActions('auth', [LOGIN]),
+    ...mapActions('authentications', [STORE_LOGIN_INFO]),
     async login() {
-      const auth = await this.$login({
+      const loginData = await this.$login({
         username: this.username,
         password: this.password,
       })
-      console.log(auth);
+      if (loginData) {
+        await this[STORE_LOGIN_INFO](loginData)
+        this.$router.push('/')
+      }
+    }
+  },
+  async mounted() {
+    if(!process.client) return;
+    const loginData = localStorage.getItem("loginInfo");
+    if(loginData){
+      if (moment().isAfter(moment(loginData.time).add(loginData.expiresIn, 'seconds'))) {
+        localStorage.removeItem("loginInfo");
+        await this[STORE_LOGIN_INFO](JSON.parse({}));
+      }
+      await this[STORE_LOGIN_INFO](JSON.parse(loginData));
     }
   },
   head() {
@@ -60,7 +78,7 @@ export default {
         }
       ]
     }
-  }
+  },
 }
 </script>
 
