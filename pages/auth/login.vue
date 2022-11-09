@@ -42,12 +42,11 @@ export default {
   methods: {
     ...mapActions('auth', [LOGIN]),
     async login() {
-      console.log('=== here ===')
-      // await this[LOGIN]({
-      //   username: this.username,
-      //   password: this.password,
-      // })
-      // return
+      const auth = await this.$login({
+        username: this.username,
+        password: this.password,
+      })
+      console.log(auth);
     }
   },
   head() {
