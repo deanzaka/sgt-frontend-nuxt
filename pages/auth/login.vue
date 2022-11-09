@@ -3,7 +3,7 @@
     <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
+          <v-flex xs8 sm6 md4 lg4 xl4>
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Login form</v-toolbar-title>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import { LOGIN } from '~/utils/constants'
 export default {
   layout: 'empty',
   data() {
@@ -38,9 +40,14 @@ export default {
     }
   },
   methods: {
-    login() {
-      console.log(this.username)
-      console.log(this.password)
+    ...mapActions('auth', [LOGIN]),
+    async login() {
+      console.log('=== here ===')
+      // await this[LOGIN]({
+      //   username: this.username,
+      //   password: this.password,
+      // })
+      // return
     }
   },
   head() {

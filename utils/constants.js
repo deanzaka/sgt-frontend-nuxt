@@ -16,6 +16,9 @@ export const DEFAULT_ERROR_MESSAGE = {
   500: 'Server Error: Please contact the support team.',
 }
 
+// auth module store
+export const LOGIN = 'login'
+
 // accounts module store
 export const GET_ALL_ACCOUNTS = 'getAllAccounts'
 

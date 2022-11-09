@@ -1,8 +1,10 @@
+import authService from '~/services/auth';
 import accountService from '~/services/accounts'
 import deviceService from '~/services/devices'
 
 export default ({ $axios }, inject) => {
   const services = {
+    ...authService($axios),
     ...accountService($axios),
     ...deviceService($axios),
   }
