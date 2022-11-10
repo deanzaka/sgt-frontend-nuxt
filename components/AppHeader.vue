@@ -5,7 +5,7 @@
     <v-spacer></v-spacer>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn data-app icon v-bind="attrs" v-on="on" @click="switchRole()">
+        <v-btn v-show="loginInfo.isAdmin" data-app icon v-bind="attrs" v-on="on" @click="switchRole()">
           <v-icon>mdi-account-switch</v-icon>
         </v-btn>
       </template>
@@ -65,6 +65,7 @@ export default {
         await this[STORE_LOGIN_INFO](JSON.parse(loginData));
       }
     }
+    console.log(this.loginInfo)
   },
 }
 </script>
