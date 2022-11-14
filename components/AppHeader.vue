@@ -101,8 +101,7 @@ export default {
         }
         await this[STORE_LOGIN_INFO](JSON.parse(loginData));
       }
-    }
-    console.log(this.loginInfo)
+    } 
   },
 }
 </script>

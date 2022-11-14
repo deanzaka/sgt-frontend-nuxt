@@ -1,34 +1,45 @@
 <template>
-  <v-data-table :headers="headers" :items="items" :loading="isLoading" loading-text="LOADING DATA" item-key="imei"
-    :search="search" class="elevation-1" :item-class="itemRowBackground">
-    <template v-slot:body.prepend>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>
-          <v-text-field v-model="account" type="text" label="Account"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="vehicleNumber" type="text" label="Vehicle Number"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="status" type="text" label="Status"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="sim" type="text" label="SIM"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="imei" type="text" label="IMEI"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="type" type="text" label="Type"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="remark" type="text" label="Remark"></v-text-field>
-        </td>
-      </tr>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-data-table :headers="headers" :items="items" :loading="isLoading" loading-text="LOADING DATA" item-key="imei"
+      :search="search" class="elevation-1" :item-class="itemRowBackground" @click:row="rowClick">
+      <template v-slot:body.prepend>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <v-text-field v-model="account" type="text" label="Account"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="vehicleNumber" type="text" label="Vehicle Number"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="status" type="text" label="Status"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="sim" type="text" label="SIM"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="imei" type="text" label="IMEI"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="type" type="text" label="Type"></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="remark" type="text" label="Remark"></v-text-field>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
+    <v-dialog v-model="dialog" scrollable max-width="80%">
+      <v-card>
+        <v-card-title>Device: {{ accountData }} - {{ imeiData }}</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text height="200px">Expiration Date: {{ expirationData }}</v-card-text>
+
+
+      </v-card>
+    </v-dialog>
+  </v-card>
 </template>
 
 <script>
@@ -61,7 +72,13 @@ export default {
       } else if (expiration.isBefore(moment().add(30, 'days'))) {
         return 'yellow-background';
       }
-    }
+    },
+    rowClick(item) {
+      this.dialog = !this.dialog
+      this.expirationData = item.expiration
+      this.accountData = item.account
+      this.imeiData = item.imei
+    },
   },
   async mounted() {
     await this.getDevices();
@@ -80,6 +97,7 @@ export default {
         { value: 'vehicleIcon', text: 'Type', filter: f => { return (f + '').toLowerCase().includes(this['type'].toLowerCase()) } },
         { value: 'reMark', text: 'Remarks', filter: f => { return (f + '').toLowerCase().includes(this['remark'].toLowerCase()) } },
       ],
+      dialog: false,
       items: [],
       isLoading: true,
       search: '',
@@ -90,6 +108,9 @@ export default {
       imei: '',
       type: '',
       remark: '',
+      expirationData: '',
+      accountData: '',
+      imeiData: '',
     }
   },
 }
@@ -99,6 +120,7 @@ export default {
 .red-background {
   background-color: rgb(177, 95, 78)
 }
+
 .yellow-background {
   background-color: rgba(208, 208, 96, 0.846)
 }
