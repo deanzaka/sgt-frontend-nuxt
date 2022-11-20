@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="font-display">
     <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
@@ -78,5 +78,9 @@ export default {
 </script>
 
 <style>
+
+.font-display {
+  font-family: 'Inter', sans-serif;
+}
 
 </style>

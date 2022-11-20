@@ -36,9 +36,15 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-fonts',
   ],
+
+  googleFonts: {
+    families: {
+      Inter: [300, 500, 700],
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -67,9 +73,6 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
-      },
-      font: {
-        family: 'Roboto'
       }
     }
   },

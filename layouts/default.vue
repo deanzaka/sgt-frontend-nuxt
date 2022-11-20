@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="font-display">
     <AppHeader />
     <nuxt />
   </v-container>
@@ -13,3 +13,11 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.font-display {
+  font-family: 'Inter', sans-serif;
+}
+
+</style>
