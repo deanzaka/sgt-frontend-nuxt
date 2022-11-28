@@ -30,6 +30,7 @@
         </tr>
       </template>
     </v-data-table>
+
     <v-dialog v-model="dialog" scrollable max-width="80%">
       <v-card>
         <v-card-title>Device: {{ accountData }} - {{ imeiData }}</v-card-title>
@@ -39,6 +40,13 @@
 
       </v-card>
     </v-dialog>
+    
+    <v-overlay :value="isLoading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
   </v-card>
 </template>
 

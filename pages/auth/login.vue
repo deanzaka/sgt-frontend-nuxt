@@ -22,6 +22,12 @@
         </v-layout>
       </v-container>
     </v-main>
+    <v-overlay :value="isLoading">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -36,15 +42,18 @@ export default {
     return {
       username: '',
       password: '',
+      isLoading: false,
     }
   },
   methods: {
     ...mapActions('authentications', [STORE_LOGIN_INFO]),
     async login() {
+      this.isLoading = true;
       const loginData = await this.$login({
         username: this.username,
         password: this.password,
       })
+      this.isLoading = false;
       if (loginData) {
         await this[STORE_LOGIN_INFO](loginData)
         this.$router.push('/')
