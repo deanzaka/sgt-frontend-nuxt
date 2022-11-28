@@ -1,15 +1,15 @@
 <template>
   <v-card>
     <v-data-table 
-      :class="['devices-table' ]"
+      :class="['devices-table']"
       :headers="headers" 
       :items="items" 
       :loading="isLoading" 
       loading-text="LOADING DATA" 
       item-key="imei"
       :search="search" 
-      :item-class="itemRowBackground" 
-      @click:row="rowClick">
+      :item-class="itemRowBackground"
+    >
       <template v-slot:body.prepend>
         <tr>
           <td></td>
@@ -43,15 +43,36 @@
       <template v-slot:item.activationTime="{ item }">
         <span>{{ new Date(item.activationTime).toLocaleString() }}</span>
       </template>
+      <template #[`item.actions`]="{ item }">
+        <v-menu offset-y>
+          <template #[`activator`]="{ on, attrs }">
+            <v-btn
+              text
+              class="text-capitalize"
+              v-bind="attrs"
+              v-on="on"
+            >
+              More<v-icon small>mdi-chevron-down</v-icon></v-btn
+            >
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(actItem, index) in actionItems"
+              :key="index"
+              :disabled="actItem.disabled"
+              link
+            >
+              <v-list-item-content>
+                <v-list-item-title @click="action(actItem.value, item)"
+                  ><v-icon class="pr-3">{{ actItem.icon }}</v-icon
+                  >{{ actItem.text }}</v-list-item-title
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
     </v-data-table>
-
-    <v-dialog v-model="dialog" scrollable max-width="80%">
-      <v-card>
-        <v-card-title>Device: {{ accountData }} - {{ imeiData }}</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text height="200px">Expiration Date: {{ expirationData }}</v-card-text>
-      </v-card>
-    </v-dialog>
     
     <v-overlay :value="isLoading">
       <v-progress-circular
@@ -87,17 +108,13 @@ export default {
     itemRowBackground(item) {
       const expiration = moment(item.expiration);
 
-      if (expiration.isBefore(moment().add(7, 'days'))) {
+      if (expiration.isBefore(moment())) {
         return 'red-background';
+      } else if (expiration.isBefore(moment().add(7, 'days'))) {
+        return 'orange-background';
       } else if (expiration.isBefore(moment().add(30, 'days'))) {
         return 'yellow-background';
       }
-    },
-    rowClick(item) {
-      this.dialog = !this.dialog
-      this.expirationData = item.expiration
-      this.accountData = item.account
-      this.imeiData = item.imei
     },
   },
   async mounted() {
@@ -116,9 +133,18 @@ export default {
         { value: 'imei', text: 'IMEI', filter: f => { return (f + '').toLowerCase().includes(this['imei'].toLowerCase()) } },
         { value: 'vehicleIcon', text: 'Type', filter: f => { return (f + '').toLowerCase().includes(this['type'].toLowerCase()) } },
         { value: 'reMark', text: 'Remarks', filter: f => { return (f + '').toLowerCase().includes(this['remark'].toLowerCase()) } },
+        { value: 'actions', text: 'Actions', sortable: false  }
       ],
       dialog: false,
       items: [],
+      actionItems: [
+        {
+          text: 'Send Invoice',
+          value: 'sendInvoice',
+          icon: 'mdi-email-fast-outline',
+          disabled: false,
+        }
+      ],
       isLoading: true,
       search: '',
       account: '',
@@ -144,8 +170,12 @@ export default {
   background-color: rgb(177, 95, 78)
 }
 
+.orange-background {
+  background-color: rgb(255, 165, 0)
+}
+
 .yellow-background {
-  background-color: rgba(208, 208, 96, 0.846)
+  background-color: rgba(223, 223, 31, 0.846)
 }
 </style>
 
