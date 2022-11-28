@@ -1,7 +1,6 @@
 <template>
   <v-card>
     <v-data-table 
-      :class="['devices-table']"
       :headers="headers" 
       :items="items" 
       :loading="isLoading" 
@@ -9,6 +8,7 @@
       item-key="imei"
       :search="search" 
       :item-class="itemRowBackground"
+      elevation="1"
     >
       <template v-slot:body.prepend>
         <tr>
@@ -44,7 +44,7 @@
         <span>{{ new Date(item.activationTime).toLocaleString() }}</span>
       </template>
       <template #[`item.actions`]="{ item }">
-        <v-menu offset-y>
+        <v-menu left>
           <template #[`activator`]="{ on, attrs }">
             <v-btn
               text
@@ -63,10 +63,10 @@
               link
             >
               <v-list-item-content>
-                <v-list-item-title @click="action(actItem.value, item)"
-                  ><v-icon class="pr-3">{{ actItem.icon }}</v-icon
-                  >{{ actItem.text }}</v-list-item-title
-                >
+                <v-list-item-title @click="action(actItem.value, item)">
+                  <v-icon class="pr-3">{{ actItem.icon }}</v-icon>
+                   {{ actItem.text }}
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -118,6 +118,9 @@ export default {
     },
   },
   async mounted() {
+    if(this.isUserDashboard) {
+      this.headers = this.headers.filter(header => header.value !== 'actions');
+    }
     await this.getDevices();
     this.isLoading = false;
   },
@@ -163,9 +166,6 @@ export default {
 </script>
 
 <style>
-.devices-table {
-  margin-top: 48px;
-}
 .red-background {
   background-color: rgb(177, 95, 78)
 }

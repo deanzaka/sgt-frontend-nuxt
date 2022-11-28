@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-app-bar color="white">
+    <v-app-bar color="white" style="position: relative; z-index: 3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ dashboardType }} Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -40,11 +40,7 @@
           </v-list-item>
 
           <v-list-item>
-            <v-list-item-title>Accounts</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Payments</v-list-item-title>
+            <v-list-item-title>Invoices</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -107,5 +103,4 @@ export default {
 </script>
 
 <style>
-
 </style>
