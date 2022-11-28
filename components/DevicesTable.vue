@@ -37,6 +37,12 @@
           </td>
         </tr>
       </template>
+      <template v-slot:item.expiration="{ item }">
+        <span>{{ new Date(item.expiration).toLocaleString() }}</span>
+      </template>
+      <template v-slot:item.activationTime="{ item }">
+        <span>{{ new Date(item.activationTime).toLocaleString() }}</span>
+      </template>
     </v-data-table>
 
     <v-dialog v-model="dialog" scrollable max-width="80%">
@@ -44,8 +50,6 @@
         <v-card-title>Device: {{ accountData }} - {{ imeiData }}</v-card-title>
         <v-divider></v-divider>
         <v-card-text height="200px">Expiration Date: {{ expirationData }}</v-card-text>
-
-
       </v-card>
     </v-dialog>
     
