@@ -1,5 +1,5 @@
 <template>
-  <v-container class="font-display">
+  <v-container fluid :class="['font-display']">
     <AppHeader />
     <nuxt />
   </v-container>

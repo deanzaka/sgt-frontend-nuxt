@@ -1,7 +1,15 @@
 <template>
   <v-card>
-    <v-data-table :headers="headers" :items="items" :loading="isLoading" loading-text="LOADING DATA" item-key="imei"
-      :search="search" class="elevation-1" :item-class="itemRowBackground" @click:row="rowClick">
+    <v-data-table 
+      :class="['devices-table' ]"
+      :headers="headers" 
+      :items="items" 
+      :loading="isLoading" 
+      loading-text="LOADING DATA" 
+      item-key="imei"
+      :search="search" 
+      :item-class="itemRowBackground" 
+      @click:row="rowClick">
       <template v-slot:body.prepend>
         <tr>
           <td></td>
@@ -125,6 +133,9 @@ export default {
 </script>
 
 <style>
+.devices-table {
+  margin-top: 48px;
+}
 .red-background {
   background-color: rgb(177, 95, 78)
 }
