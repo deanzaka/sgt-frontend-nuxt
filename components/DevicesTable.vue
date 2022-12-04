@@ -1,16 +1,8 @@
 <template>
   <v-card>
-    <v-data-table 
-      :headers="headers" 
-      :items="items" 
-      :loading="isLoading" 
-      loading-text="LOADING DATA" 
-      item-key="imei"
-      :search="search" 
-      :item-class="itemRowBackground"
-      elevation="1"
-    >
-      <template v-slot:body.prepend>
+    <v-data-table :headers="headers" :items="items" :loading="isLoading" loading-text="LOADING DATA" item-key="imei"
+      :search="search" :item-class="itemRowBackground" elevation="1">
+      <template v-slot:[`body.prepend`]>
         <tr>
           <td></td>
           <td></td>
@@ -35,50 +27,36 @@
           <td>
             <v-text-field v-model="remark" type="text" label="Remark"></v-text-field>
           </td>
+          <td>
+            <v-text-field v-model="packageMonth" type="text" label="Package (Month)"></v-text-field>
+          </td>
         </tr>
       </template>
-      <template v-slot:item.expiration="{ item }">
+      <template v-slot:[`item.expiration`]="{ item }">
         <span>{{ new Date(item.expiration).toLocaleString() }}</span>
       </template>
-      <template v-slot:item.activationTime="{ item }">
+      <template v-slot:[`item.activationTime`]="{ item }">
         <span>{{ new Date(item.activationTime).toLocaleString() }}</span>
       </template>
-      <template #[`item.actions`]="{ item }">
-        <v-menu left>
-          <template #[`activator`]="{ on, attrs }">
-            <v-btn
-              text
-              class="text-capitalize"
-              v-bind="attrs"
-              v-on="on"
-            >
-              More<v-icon small>mdi-chevron-down</v-icon></v-btn
-            >
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-menu offset-y :min-width="200">
+          <template v-slot:[`activator`]="{ on: onMenu }">
+            <v-btn outlined class="text-capitalize" v-on="onMenu">More<v-icon small>mdi-chevron-down</v-icon>
+            </v-btn>
           </template>
           <v-list>
-            <v-list-item
-              v-for="(actItem, index) in actionItems"
-              :key="index"
-              :disabled="actItem.disabled"
-              link
-            >
+            <v-list-item v-for="(actItem, index) in actionItems" :key="index" :disabled="actItem.disabled" link>
               <v-list-item-content>
                 <v-list-item-title @click="action(actItem.value, item)">
-                  <v-icon class="pr-3">{{ actItem.icon }}</v-icon>
-                   {{ actItem.text }}
-                </v-list-item-title>
+                  <v-icon class="pr-3">{{ actItem.icon }}</v-icon> {{ actItem.text }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-menu>
       </template>
     </v-data-table>
-    
     <v-overlay :value="isLoading">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
   </v-card>
 </template>
@@ -118,7 +96,7 @@ export default {
     },
   },
   async mounted() {
-    if(this.isUserDashboard) {
+    if (this.isUserDashboard) {
       this.headers = this.headers.filter(header => header.value !== 'actions');
     }
     await this.getDevices();
@@ -136,7 +114,8 @@ export default {
         { value: 'imei', text: 'IMEI', filter: f => { return (f + '').toLowerCase().includes(this['imei'].toLowerCase()) } },
         { value: 'vehicleIcon', text: 'Type', filter: f => { return (f + '').toLowerCase().includes(this['type'].toLowerCase()) } },
         { value: 'reMark', text: 'Remarks', filter: f => { return (f + '').toLowerCase().includes(this['remark'].toLowerCase()) } },
-        { value: 'actions', text: 'Actions', sortable: false  }
+        { value: 'packageMonth', text: 'Package (Month)', filter: f => { return (f + '').toLowerCase().includes(this['packageMonth'].toLowerCase()) } },
+        { value: 'actions', text: 'Actions', sortable: false },
       ],
       dialog: false,
       items: [],
@@ -157,6 +136,7 @@ export default {
       imei: '',
       type: '',
       remark: '',
+      packageMonth: '',
       expirationData: '',
       accountData: '',
       imeiData: '',

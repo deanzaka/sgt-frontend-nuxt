@@ -5,40 +5,30 @@
       <v-toolbar-title>{{ dashboardType }} Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn v-show="loginInfo.isAdmin" data-app icon v-bind="attrs" v-on="on" @click="switchRole()">
+        <template v-slot:activator="{ on: onTooltip }">
+          <v-btn v-show="loginInfo.isAdmin" data-app icon v-on="onTooltip" @click="switchRole()">
             <v-icon>mdi-account-switch</v-icon>
           </v-btn>
         </template>
         <span>Switch role</span>
       </v-tooltip>
       <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn data-app icon v-bind="attrs" v-on="on" @click="logout()">
+        <template v-slot:activator="{ on: onTooltip }">
+          <v-btn data-app icon v-on="onTooltip" @click="logout()">
             <v-icon>mdi-logout</v-icon>
           </v-btn>
         </template>
         <span>Logout</span>
       </v-tooltip>
     </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      temporary
-      absolute
-      app
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
+    <v-navigation-drawer v-model="drawer" temporary absolute app>
+      <v-list nav dense>
+        <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
+          <img src="~/assets/img/Logo.png" alt="logo" />
+          <v-divider />
           <v-list-item>
             <v-list-item-title>Devices</v-list-item-title>
           </v-list-item>
-
           <v-list-item>
             <v-list-item-title>Invoices</v-list-item-title>
           </v-list-item>
@@ -97,10 +87,11 @@ export default {
         }
         await this[STORE_LOGIN_INFO](JSON.parse(loginData));
       }
-    } 
+    }
   },
 }
 </script>
 
 <style>
+
 </style>

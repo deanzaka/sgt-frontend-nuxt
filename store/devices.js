@@ -1,7 +1,7 @@
 import { GET_ALL_DEVICES, START_LOADING, STOP_LOADING } from "~/utils/constants"
 
 export const state = () => ({
-  accounts: []
+  devices: []
 })
 
 export const getters = {

@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "^2.0.0",
-    "@nuxtjs/vuetify": "^1.12.3"
+    "@nuxtjs/vuetify": "^1.12.3",
+    "@volar-plugins/vetur": "latest"
   }
 }
